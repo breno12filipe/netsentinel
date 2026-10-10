@@ -1,4 +1,4 @@
-package com.example.netsentinel.model;
+package com.netsentinel.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
