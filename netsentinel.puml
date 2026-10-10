@@ -1,0 +1,66 @@
+@startuml NetSentinel_Architecture
+!theme plain
+skinparam componentStyle uml2
+
+title NetSentinel — Arquitetura do Sistema (Big Picture)
+
+actor "Usuário / CLI" as User
+
+node "Servidor do NetSentinel (Java App)" {
+    package "Camada REST (Controllers)" {
+        [TargetController\n(/api/v1/targets)] as TargetCtrl
+        [CheckController\n(/api/v1/checks)] as CheckCtrl
+    }
+
+    package "Gerenciador de Agendamento" {
+        [ScheduledExecutorService\n(Thread Pool)] as Scheduler
+    }
+
+    package "Motor de Diagnóstico (Service)" {
+        [PING Engine\n(InetAddress)] as PingEng
+        [TCP Engine\n(Socket)] as TcpEng
+        [HTTP Engine\n(HttpClient)] as HttpEng
+    }
+
+    package "Armazenamento & Métricas" {
+        [Memória / Banco de Dados] as Storage
+        [Micrometer / Metrics Registry\n(/metrics)] as Metrics
+    }
+}
+
+node "Infraestrutura Alvo" {
+    [Gateways / Routers\n(ICMP/PING)] as TargetPing
+    [PostgreSQL / Redis\n(TCP Sockets)] as TargetTcp
+    [APIs Web / Nginx\n(HTTP/HTTPS)] as TargetHttp
+}
+
+node "Observabilidade Externa" {
+    [Prometheus] as Prometheus
+}
+
+' Fluxo de interações
+User --> TargetCtrl : 1. Configura Targets (POST/PUT/DELETE)
+User --> CheckCtrl : Consultas de Status & Testes sob demanda
+
+TargetCtrl --> Scheduler : Agenda tarefas periódicas
+CheckCtrl --> Storage : Consulta histórico e status atual
+
+Scheduler --> PingEng : 2. Dispara checagem em Threads
+Scheduler --> TcpEng : 2. Dispara checagem em Threads
+Scheduler --> HttpEng : 2. Dispara checagem em Threads
+
+PingEng --> TargetPing : 3. Valida L3 (ICMP)
+TcpEng --> TargetTcp : 3. Valida L4 (TCP Handshake)
+HttpEng --> TargetHttp : 3. Valida L7 (GET/HEAD Request)
+
+PingEng --> Storage : 4. Salva Latência & Status (UP/DOWN)
+TcpEng --> Storage : 4. Salva Latência & Status (UP/DOWN)
+HttpEng --> Storage : 4. Salva Latência & Status (UP/DOWN)
+
+PingEng --> Metrics : Atualiza Métricas
+TcpEng --> Metrics : Atualiza Métricas
+HttpEng --> Metrics : Atualiza Métricas
+
+Prometheus --> Metrics : 5. Scrape de Métricas (/metrics)
+
+@enduml

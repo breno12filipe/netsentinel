@@ -1,4 +1,4 @@
-# NetSentinel — API Specification (`routes.md`)
+x# NetSentinel — API Specification (`routes.md`)
 
 Esta documentação descreve todos os endpoints REST disponibilizados pela aplicação **NetSentinel**, detalhando contratos de entrada e saída, parâmetros de consulta, códigos de status HTTP e exemplos funcionais de payloads.
 
