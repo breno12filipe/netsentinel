@@ -1,4 +1,4 @@
-package com.example.netsentinel;
+package com.netsentinel;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
