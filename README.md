@@ -68,9 +68,62 @@ Antes de iniciar, certifique-se de ter instalado em sua máquina:
 
 ---
 
+## ⚙️ Exemplo de uso
+
+Subir a aplicação localmente com:
+`docker compose up -d`
+
+Cadastrar os alvos usando o DNS interno do Docker (`test-nginx`, `test-postgres`, `test-redis`) na API do NetSentinel:
+
+1. Cadastrar Alvo HTTP (Nginx)
+```Bash
+   curl -X POST http://localhost:8080/api/v1/targets \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Nginx Webserver Test",
+    "type": "HTTP",
+    "host": "test-nginx",
+    "port": 80,
+    "endpointPath": "/",
+    "expectedStatusCode": 200,
+    "intervalSeconds": 10,
+    "timeoutMs": 2000
+  }'
+```
+
+2. Cadastrar Alvo TCP (PostgreSQL)
+```Bash
+curl -X POST http://localhost:8080/api/v1/targets \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "PostgreSQL DB Test",
+    "type": "TCP",
+    "host": "test-postgres",
+    "port": 5432,
+    "intervalSeconds": 15,
+    "timeoutMs": 1000
+  }'
+```
+
+3. Cadastrar Alvo TCP (Redis)
+```Bash
+curl -X POST http://localhost:8080/api/v1/targets \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Redis Cache Test",
+    "type": "TCP",
+    "host": "test-redis",
+    "port": 6379,
+    "intervalSeconds": 15,
+    "timeoutMs": 1000
+  }'
+```
+---
+
 ## 🛠️ Próximos Passos & Roadmap
 
-- [ ] Estruturação de pacotes por camadas (`controller`, `service`, `dto`, `model`)
+- [x] Estruturação de pacotes por camadas (`controller`, `service`, `dto`, `model`)
+- [ ] Configurar Swagger/OpenAPI no pacote config para documentar a API
 - [ ] Conexão com banco de dados via Spring Data JPA
 - [ ] Endpoint de verificação de conectividade (Ping / Healthcheck)
 

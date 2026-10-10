@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # --- APLICAÇÃO NETSENTINEL ---
+  netsentinel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netsentinel-app
+    ports:
+      - "8080:8080"
+    networks:
+      - netsentinel-net
+    depends_on:
+      - test-nginx
+      - test-postgres
+      - test-redis
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  # --- SERVIÇO DE TESTE 1: NGINX (HTTP / Camada 7) ---
+  test-nginx:
+    image: nginx:alpine
+    container_name: test-nginx
+    ports:
+      - "80:80"
+    networks:
+      - netsentinel-net
+
+  # --- SERVIÇO DE TESTE 2: POSTGRESQL (TCP / Camada 4) ---
+  test-postgres:
+    image: postgres:15-alpine
+    container_name: test-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: netsentinel_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secretpassword
+    networks:
+      - netsentinel-net
+
+  # --- SERVIÇO DE TESTE 3: REDIS (TCP / Camada 4) ---
+  test-redis:
+    image: redis:alpine
+    container_name: test-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - netsentinel-net
+
+networks:
+  netsentinel-net:
+    driver: bridge
