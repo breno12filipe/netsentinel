@@ -131,9 +131,15 @@ curl -X POST http://localhost:8080/api/v1/targets \
 ## 🛠️ Próximos Passos & Roadmap
 
 - [x] Estruturação de pacotes por camadas (`controller`, `service`, `dto`, `model`)
-- [X] Configurar Swagger/OpenAPI no pacote config para documentar a API
-- [ ] Conexão com banco de dados via Spring Data JPA
-- [ ] Endpoint de verificação de conectividade (Ping / Healthcheck)
+- [x] Motor de varredura concorrente para L3 (PING), L4 (TCP) e L7 (HTTP)
+- [x] Agendamento dinâmico de tarefas com `ScheduledExecutorService`
+- [x] Conteinerização com `Dockerfile` e ambiente de testes no `docker-compose.yml`
+- [x] Configuração da documentação interativa com Swagger/OpenAPI UI
+- [ ] Conexão com banco de dados relacional via Spring Data JPA + PostgreSQL
+- [ ] Implementação do `CheckController` com endpoint de status consolidado (`/api/v1/checks/status`)
+- [ ] Portal/Dashboard interno estilo **Statuspage / DownDetector**
+- [ ] Coleta e exportação de métricas via Micrometer + Prometheus / Grafana
+- [ ] Sistema de alertas e notificações (Webhooks para Whatsapp/Stoat/Discord)
 
 ---
 *Desenvolvido como projeto de aprendizado em arquitetura de APIs REST com Spring Boot.*
