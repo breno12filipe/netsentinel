@@ -123,7 +123,7 @@ curl -X POST http://localhost:8080/api/v1/targets \
 ## 🛠️ Próximos Passos & Roadmap
 
 - [x] Estruturação de pacotes por camadas (`controller`, `service`, `dto`, `model`)
-- [ ] Configurar Swagger/OpenAPI no pacote config para documentar a API
+- [X] Configurar Swagger/OpenAPI no pacote config para documentar a API
 - [ ] Conexão com banco de dados via Spring Data JPA
 - [ ] Endpoint de verificação de conectividade (Ping / Healthcheck)
 
