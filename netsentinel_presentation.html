@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetSentinel - Arquitetura e Apresentação</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 85vw;
+            max-width: 1000px;
+            height: 70vh;
+            max-height: 600px;
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .slide {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .code-block {
+            background: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--success);
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            width: 85vw;
+            max-width: 1000px;
+        }
+
+        button {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-number {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slide-container">
+    <!-- Slide 1 -->
+    <div class="slide active">
+        <h1>NetSentinel</h1>
+        <p>Sistema de Monitoramento Integrado de Saúde de Serviços e Infraestrutura de Rede.</p>
+        <p>Varreduras concorrentes de alta performance cobrindo o Modelo OSI nas Camadas 3, 4 e 7 com arquitetura bottom-up em Java Spring Boot.</p>
+        <div class="badge-group">
+            <span class="badge">Java 17+</span>
+            <span class="badge">Spring Boot</span>
+            <span class="badge">ScheduledExecutorService</span>
+            <span class="badge">Docker & Compose</span>
+            <span class="badge">OpenAPI / Swagger</span>
+        </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+        <h2>Arquitetura Multi-Camadas (Modelo OSI)</h2>
+        <p>O NetSentinel realiza diagnósticos ativos de conectividade em três camadas fundamentais da rede:</p>
+        <div class="grid-3">
+            <div class="card">
+                <h3>Camada 3 (Rede) - PING</h3>
+                <p>ICMP Echo Request/Reply. Avalia alcance básico de IP e latência (RTT) sem depender de portas abertas.</p>
+            </div>
+            <div class="card">
+                <h3>Camada 4 (Transporte) - TCP</h3>
+                <p>Socket Handshake (3-Way). Valida se daemons/serviços (Postgres, Redis) estão escutando em portas específicas.</p>
+            </div>
+            <div class="card">
+                <h3>Camada 7 (Aplicação) - HTTP</h3>
+                <p>HttpClient com verbos otimizados (HEAD). Valida a integridade lógica e os Status Codes esperados das APIs.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+        <h2>Motor Concorrente & Threads</h2>
+        <p>Gerenciamento de tempo real projetado para baixa latência e concorrência com <code>ScheduledExecutorService</code> e <code>ConcurrentHashMap</code>:</p>
+        <div class="code-block">
+            // Agendamento thread-safe atômico com delay fixo para evitar acúmulo de pacotes
+            ScheduledFuture&lt;?&gt; future = executorService.scheduleWithFixedDelay(
+            () -> performCheck(target),
+            0,
+            target.getIntervalSeconds(),
+            TimeUnit.SECONDS
+            );
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.95rem;">
+            Garante que o re-agendamento de alvos alterados via API REST ocorra sem interromper ou travar a execução das outras checagens ativas.
+        </p>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+        <h2>Infraestrutura Conteinerizada</h2>
+        <p>Ambiente isolado configurado via Docker e Docker Compose com suporte a DNS interno entre containers:</p>
+        <div class="grid-3">
+            <div class="card">
+                <h3>NetSentinel App</h3>
+                <p>Container Java (Eclipse Temurin JRE Alpine) compilado via Multi-stage build na porta 8080.</p>
+            </div>
+            <div class="card">
+                <h3>Test Targets (L4 & L7)</h3>
+                <p>Nginx (HTTP:80), PostgreSQL (TCP:5432) e Redis (TCP:6379) integrados para testes imediatos.</p>
+            </div>
+            <div class="card">
+                <h3>Docker Network</h3>
+                <p>Rede bridge unificada garantindo resolução de nomes direta (ex: host: "test-postgres").</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+        <h2>Visão de Futuro & Próximos Passos</h2>
+        <p>Roteiro de evolução planejado para escalar o NetSentinel:</p>
+        <div class="grid-3">
+            <div class="card">
+                <h3>1. Persistência SQL</h3>
+                <p>Substituir o armazenamento em memória por Spring Data JPA + PostgreSQL para salvar histórico temporal.</p>
+            </div>
+            <div class="card">
+                <h3>2. Prometheus & Grafana</h3>
+                <p>Expor /metrics via Micrometer para montagem de dashboards visuais de latência e disponibilidade.</p>
+            </div>
+            <div class="card">
+                <h3>3. Webhooks & Alertas</h3>
+                <p>Notificações instantâneas via Discord/Slack quando um alvo alterar do status UP para DOWN.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="controls">
+    <button id="prevBtn" onclick="changeSlide(-1)" disabled>Anterior</button>
+    <span class="slide-number" id="slideNum">Slide 1 de 5</span>
+    <button id="nextBtn" onclick="changeSlide(1)">Próximo</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const slideNum = document.getElementById('slideNum');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateSlide() {
+        slides.forEach((slide, index) => {
+            slide.classList.remove('active');
+            if (index === currentSlide) {
+                slide.classList.add('active');
+            }
+        });
+
+        slideNum.textContent = `Slide ${currentSlide + 1} de ${slides.length}`;
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    function changeSlide(direction) {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+        updateSlide();
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'Space') {
+            if (currentSlide < slides.length - 1) changeSlide(1);
+        } else if (e.key === 'ArrowLeft') {
+            if (currentSlide > 0) changeSlide(-1);
+        }
+    });
+</script>
+</body>
+</html>
