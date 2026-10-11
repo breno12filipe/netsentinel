@@ -120,6 +120,14 @@ curl -X POST http://localhost:8080/api/v1/targets \
 ```
 ---
 
+## 📑 Documentação do Projeto
+
+- 🚀 **Apresentação do Projeto (Slides):** [Clique para visualizar a Apresentação Interativa](https://breno12filipe.github.io/netsentinel/docs/netsentinel_presentation.html)
+- 📖 **Especificação da API REST:** [`docs/api_specification.md`](docs/routes.md)
+- 📐 **Diagrama de Arquitetura:** [`docs/architecture.puml`](docs/architecture.puml)
+
+---
+
 ## 🛠️ Próximos Passos & Roadmap
 
 - [x] Estruturação de pacotes por camadas (`controller`, `service`, `dto`, `model`)
